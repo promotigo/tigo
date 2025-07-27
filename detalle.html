@@ -110,10 +110,7 @@
       <span class="valor" id="linea"></span>
     </div>
 
-    <div class="detalle-item">
-      <span class="etiqueta">Correo electrónico:</span>
-      <span class="valor" id="correo"></span>
-    </div>
+    
 
     <div class="detalle-item">
       <span class="etiqueta">Referente de pago:</span>
@@ -166,7 +163,7 @@
     const email = localStorage.getItem('email') || '';
 
     document.getElementById('linea').textContent = numero;
-    document.getElementById('correo').textContent = email;
+   
 
     const ultimos4 = numero.slice(-4);
     document.getElementById('referente').textContent = '*********' + ultimos4;
